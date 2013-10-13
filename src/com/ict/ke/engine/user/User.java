@@ -2,16 +2,17 @@ package com.ict.ke.engine.user;
 
 public class User {
 
-	public static final int	ACTIVITY_FEW	= 0;
-	public static final int	ACTIVITY_NORMAL	= 1;
-	public static final int	ACTIVITY_MANY	= 2;
+	/* Private info */
+	private String	name;
 
-	private String			name;
+	private int		year;
+	private int		height;
+	private int		weight;
+	private int		activity;
 
-	private int				year;
-	private int				height;
-	private int				weight;
-	private int				activity;
+	/* Index */
+	private float	BMI;
+	private int		BMIType;
 
 	public User() {}
 
@@ -53,5 +54,21 @@ public class User {
 
 	public void setYear(int year) {
 		this.year = year;
+	}
+
+	public int getBMIType() {
+		return BMIType;
+	}
+
+	public void setBMIType(int BMIType) {
+		this.BMIType = BMIType;
+	}
+
+	public void setBMI(float BMI) {
+		this.BMI = BMI;
+	}
+
+	public float getBMI() {
+		return BMI;
 	}
 }
