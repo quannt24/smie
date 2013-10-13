@@ -8,5 +8,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/SMIE/lib/jruleengine.jar!/api"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-io-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit-dep-4.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
