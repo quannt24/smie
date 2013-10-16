@@ -1,5 +1,7 @@
 package com.ict.ke.engine.user;
 
+import java.util.Calendar;
+
 public class User {
 
 	/* Private info */
@@ -70,5 +72,9 @@ public class User {
 
 	public float getBMI() {
 		return BMI;
+	}
+	
+	public int getAge() {
+		return Calendar.getInstance().get(Calendar.YEAR) - year;
 	}
 }
