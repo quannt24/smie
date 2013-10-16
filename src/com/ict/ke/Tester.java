@@ -5,12 +5,16 @@ package com.ict.ke;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.rules.InvalidRuleSessionException;
+import javax.rules.StatefulRuleSession;
 import javax.rules.StatelessRuleSession;
 
 import org.jruleengine.Clause;
+import org.jruleengine.StatefulRuleSessionImpl;
 
 import com.ict.ke.engine.Evaluate;
 import com.ict.ke.engine.Smie;
@@ -35,27 +39,32 @@ public class Tester {
 		user.setActivity(Evaluate.ACTIVITY_MANY);
 		
 		Smie smie = new Smie();
-		StatelessRuleSession session = smie.setupSession("res/rule/calperday.xml");
+		StatefulRuleSession session = smie.setupSession("res/rule/calperday.xml");
 		
 		// TODO Test rules here
-		ArrayList<Object> users = new ArrayList<Object>();
-		users.add(user);
-		List results = null;
 		try {
-			results = session.executeRules(users);
-		} catch (InvalidRuleSessionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println("Result of calling getObjects: " + results.size() + " results.");
-		for (Object clause : results) {
-			if (clause instanceof Clause) {
-				System.out.println(clause.toString() + " " + ((Clause) clause).getName());
+			// Add input
+			ArrayList<Object> input = new ArrayList<Object>();
+			input.add(user);
+			session.addObject(user);
+
+			// Execute rules
+			List results = null;
+			session.executeRules();
+			results = session.getObjects();
+
+			// Output
+			System.out.println("Result of calling getObjects: " + results.size() + " results.");
+			// Loop over the results.
+			Hashtable wm = ((StatefulRuleSessionImpl) session).getWorkingMemory();
+			Enumeration en = wm.keys();
+			while (en.hasMoreElements()) {
+				Object obj = en.nextElement();
+				System.out.println("Clause Found: " + obj + " " + wm.get(obj));
 			}
+		} catch (InvalidRuleSessionException | RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		smie.finishSession(session);

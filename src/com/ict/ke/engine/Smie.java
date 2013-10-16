@@ -12,7 +12,7 @@ import javax.rules.RuleRuntime;
 import javax.rules.RuleServiceProvider;
 import javax.rules.RuleServiceProviderManager;
 import javax.rules.RuleSession;
-import javax.rules.StatelessRuleSession;
+import javax.rules.StatefulRuleSession;
 import javax.rules.admin.RuleAdministrator;
 import javax.rules.admin.RuleExecutionSet;
 
@@ -50,18 +50,18 @@ public class Smie {
 	}
 	
 	/**
-	 * Setup a stateless rule session to use with a specific rule set. The session must be
+	 * Setup a stateful rule session to use with a specific rule set. The session must be
 	 * explicitly released after being used, this can be done by calling finishSession().
 	 * 
 	 * @param rulesetFile
 	 *            File name of XML rule set
-	 * @return statelessRuleSession
+	 * @return statefulRuleSession
 	 */
-	public StatelessRuleSession setupSession(String rulesetFile) {
+	public StatefulRuleSession setupSession(String rulesetFile) {
 		InputStream inStream;
 		RuleExecutionSet res;
 		String uri;
-		StatelessRuleSession statelessRuleSession;
+		StatefulRuleSession statefulRuleSession;
 		
 		try {
 			inStream = new FileInputStream(rulesetFile);
@@ -96,15 +96,15 @@ public class Smie {
 			RuleRuntime ruleRuntime = serviceProvider.getRuleRuntime();
 			System.out.println("Acquired RuleRuntime: " + ruleRuntime);
 
-			// create a StatelessRuleSession
-			statelessRuleSession = (StatelessRuleSession) ruleRuntime
-					.createRuleSession(uri, new HashMap(), RuleRuntime.STATELESS_SESSION_TYPE);
+			// create a StatefulRuleSession
+			statefulRuleSession = (StatefulRuleSession) ruleRuntime
+					.createRuleSession(uri, new HashMap(), RuleRuntime.STATEFUL_SESSION_TYPE);
 		} catch (Exception e) {
 			System.err.println("Error: Cannot create session");
 			return null;
 		}
 		
-		return statelessRuleSession;
+		return statefulRuleSession;
 	}
 	
 	/**
